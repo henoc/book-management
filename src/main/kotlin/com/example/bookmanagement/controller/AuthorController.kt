@@ -2,6 +2,7 @@ package com.example.bookmanagement.controller
 
 import com.example.bookmanagement.entity.Author
 import com.example.bookmanagement.service.AuthorService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -13,14 +14,14 @@ class AuthorController(private val authorService: AuthorService) {
     fun getAllAuthors(): List<Author> = authorService.getAllAuthors()
 
     @GetMapping("/{id}")
-    fun getAuthor(@PathVariable id: Int): Author? = authorService.getAuthor(id)
+    fun getAuthor(@PathVariable id: Int): Author = authorService.getAuthor(id)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createAuthor(@RequestBody author: Author): Author = authorService.createAuthor(author)
+    fun createAuthor(@Valid @RequestBody author: Author): Author = authorService.createAuthor(author)
 
     @PutMapping("/{id}")
-    fun updateAuthor(@PathVariable id: Int, @RequestBody author: Author): Author {
+    fun updateAuthor(@PathVariable id: Int, @Valid @RequestBody author: Author): Author {
         if (author.id != id) {
             throw IllegalArgumentException("ID in path and body do not match")
         }
