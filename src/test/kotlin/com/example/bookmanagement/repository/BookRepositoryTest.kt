@@ -33,6 +33,7 @@ class BookRepositoryTest {
 
         @JvmStatic
         @DynamicPropertySource
+        @Suppress("unused")
         fun properties(registry: DynamicPropertyRegistry) {
             registry.add("spring.datasource.url") {
                 String.format(
