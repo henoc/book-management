@@ -6,8 +6,13 @@ import com.example.bookmanagement.repository.BookRepository
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 
+/**
+ * 書籍リポジトリの実装クラス
+ * jOOQを使用してデータベース操作を行います。
+ */
 @Repository
 class BookRepositoryImpl(private val dsl: DSLContext) : BookRepository {
+
     override fun findById(id: Int): Book? {
         return dsl.selectFrom(BOOKS)
             .where(BOOKS.ID.eq(id))

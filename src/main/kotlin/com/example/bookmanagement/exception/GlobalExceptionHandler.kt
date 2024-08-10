@@ -7,9 +7,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 
+/**
+ * グローバル例外ハンドラクラス
+ * アプリケーション全体で発生する例外を捕捉し、適切なレスポンスを返します。
+ */
 @ControllerAdvice
 class GlobalExceptionHandler {
 
+    /**
+     * バリデーション例外をハンドリングします。
+     * @param ex バリデーション例外
+     * @param request Webリクエスト
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationExceptions(
         ex: MethodArgumentNotValidException,
@@ -24,6 +34,11 @@ class GlobalExceptionHandler {
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 
+    /**
+     * 一般的な例外をハンドリングします。
+     * @param ex 例外
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(Exception::class)
     fun handleGlobalException(ex: Exception): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
@@ -33,6 +48,11 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
     }
 
+    /**
+     * 不正な引数例外をハンドリングします。
+     * @param ex 不正な引数例外
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgumentException(ex: IllegalArgumentException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
@@ -43,6 +63,11 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
 
+    /**
+     * 要素が見つからない例外をハンドリングします。
+     * @param ex 要素が見つからない例外
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(NoSuchElementException::class)
     fun handleNoSuchElementException(ex: NoSuchElementException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
