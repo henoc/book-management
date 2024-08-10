@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotNull
  * @property authorId 著者ID（外部キー）
  */
 data class Book(
-    val id: Int?,
+    val id: Int? = null,
     @field:NotBlank(message = "Title cannot be blank")
     val title: String,
     @field:Min(value = 0, message = "Publication year must be non-negative")
