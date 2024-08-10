@@ -5,7 +5,6 @@ import com.example.bookmanagement.jooq.tables.references.AUTHORS
 import com.example.bookmanagement.repository.AuthorRepository
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
-import java.time.LocalDate
 
 @Repository
 class AuthorRepositoryImpl(private val dsl: DSLContext) : AuthorRepository {

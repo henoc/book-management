@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class AuthorService(private val authorRepository: AuthorRepository) {
-    fun getAuthor(id: Int): Author = authorRepository.findById(id) ?: throw NoSuchElementException("Author not found with id: $id")
+    fun getAuthor(id: Int): Author =
+        authorRepository.findById(id) ?: throw NoSuchElementException("Author not found with id: $id")
+
     fun getAllAuthors(): List<Author> = authorRepository.findAll()
     fun createAuthor(author: Author): Author = authorRepository.save(author)
     fun updateAuthor(author: Author): Author = authorRepository.update(author)

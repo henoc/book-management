@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class BookService(private val bookRepository: BookRepository) {
-    fun getBook(id: Int): Book = bookRepository.findById(id) ?: throw NoSuchElementException("Book not found with id: $id")
+    fun getBook(id: Int): Book =
+        bookRepository.findById(id) ?: throw NoSuchElementException("Book not found with id: $id")
+
     fun getAllBooks(): List<Book> = bookRepository.findAll()
     fun getBooksByAuthor(authorId: Int): List<Book> = bookRepository.findByAuthorId(authorId)
     fun createBook(book: Book): Book = bookRepository.save(book)

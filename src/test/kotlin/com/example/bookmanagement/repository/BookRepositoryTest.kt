@@ -7,13 +7,13 @@ import com.example.bookmanagement.jooq.tables.references.BOOKS
 import com.example.bookmanagement.repository.impl.AuthorRepositoryImpl
 import com.example.bookmanagement.repository.impl.BookRepositoryImpl
 import org.jooq.DSLContext
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.jooq.JooqTest
 import org.springframework.context.annotation.Import
-import org.junit.jupiter.api.Assertions.*
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer

@@ -5,7 +5,8 @@ import com.example.bookmanagement.entity.Author
 import com.example.bookmanagement.service.AuthorService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -13,7 +14,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
 
 @WebMvcTest(AuthorController::class)
@@ -70,9 +72,11 @@ class AuthorControllerTest {
         val savedAuthor = Author(3, "New Author", LocalDate.of(1990, 1, 1))
         `when`(authorService.createAuthor(newAuthor)).thenReturn(savedAuthor)
 
-        mockMvc.perform(post("/api/authors")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(newAuthor)))
+        mockMvc.perform(
+            post("/api/authors")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newAuthor))
+        )
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.id").value(3))
             .andExpect(jsonPath("$.name").value("New Author"))
@@ -82,9 +86,11 @@ class AuthorControllerTest {
     fun `should return 400 when creating author with invalid data`() {
         val invalidAuthor = Author(null, "", LocalDate.of(2025, 1, 1))
 
-        mockMvc.perform(post("/api/authors")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(invalidAuthor)))
+        mockMvc.perform(
+            post("/api/authors")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidAuthor))
+        )
             .andExpect(status().isBadRequest)
     }
 
@@ -93,9 +99,11 @@ class AuthorControllerTest {
         val updatedAuthor = Author(1, "Updated Author", LocalDate.of(1985, 1, 1))
         `when`(authorService.updateAuthor(updatedAuthor)).thenReturn(updatedAuthor)
 
-        mockMvc.perform(put("/api/authors/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(updatedAuthor)))
+        mockMvc.perform(
+            put("/api/authors/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedAuthor))
+        )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(1))
             .andExpect(jsonPath("$.name").value("Updated Author"))
@@ -105,9 +113,11 @@ class AuthorControllerTest {
     fun `should return 400 when updating author with mismatched id`() {
         val updatedAuthor = Author(2, "Updated Author", LocalDate.of(1985, 1, 1))
 
-        mockMvc.perform(put("/api/authors/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(updatedAuthor)))
+        mockMvc.perform(
+            put("/api/authors/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedAuthor))
+        )
             .andExpect(status().isBadRequest)
     }
 
