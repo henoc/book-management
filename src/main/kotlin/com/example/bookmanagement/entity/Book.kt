@@ -15,11 +15,11 @@ import jakarta.validation.constraints.NotNull
  */
 data class Book(
     val id: Int?,
-    @field:NotBlank(message = "タイトルは空白にできません")
+    @field:NotBlank(message = "Title cannot be blank")
     val title: String,
-    @field:Min(value = 0, message = "出版年は0以上である必要があります")
+    @field:Min(value = 0, message = "Publication year must be non-negative")
     val publicationYear: Int?,
-    @field:NotNull(message = "著者IDは必須です")
-    @field:Min(value = 1, message = "著者IDは1以上である必要があります")
+    @field:NotNull(message = "Author ID is required")
+    @field:Min(value = 1, message = "Author ID must be positive")
     val authorId: Int
 )

@@ -16,10 +16,10 @@ import java.time.LocalDate
 data class Author(
     val id: Int? = null,
 
-    @field:NotBlank(message = "名前は空白にできません")
-    @field:Size(min = 2, max = 100, message = "名前は2文字以上100文字以下である必要があります")
+    @field:NotBlank(message = "Name cannot be blank")
+    @field:Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     val name: String,
 
-    @field:Past(message = "生年月日は過去の日付である必要があります")
+    @field:Past(message = "Birth date must be in the past")
     val birthDate: LocalDate?
 )
