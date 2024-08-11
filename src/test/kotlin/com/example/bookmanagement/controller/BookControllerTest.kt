@@ -1,10 +1,10 @@
 import com.example.bookmanagement.BookManagementApplication
 import com.example.bookmanagement.controller.BookController
 import com.example.bookmanagement.entity.Book
+import com.example.bookmanagement.exception.InvalidAuthorException
 import com.example.bookmanagement.service.BookService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -104,11 +104,33 @@ class BookControllerTest {
     }
 
     @Test
-    fun `should delete a book`() {
-        mockMvc.perform(delete("/api/books/1"))
-            .andExpect(status().isNoContent)
+    fun `should return 400 when creating book with invalid author id`() {
+        val newBook = Book(null, "Invalid Author Book", 2023, 999)
+        `when`(bookService.createBook(newBook)).thenThrow(InvalidAuthorException("Author with id 999 does not exist"))
 
-        verify(bookService).deleteBook(1)
+        mockMvc.perform(
+            post("/api/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newBook))
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.error").value("Bad Request"))
+            .andExpect(jsonPath("$.message").value("Author with id 999 does not exist"))
+    }
+
+    @Test
+    fun `should return 400 when updating book with invalid author id`() {
+        val updatedBook = Book(1, "Updated Book with Invalid Author", 2023, 999)
+        `when`(bookService.updateBook(updatedBook)).thenThrow(InvalidAuthorException("Author with id 999 does not exist"))
+
+        mockMvc.perform(
+            put("/api/books/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedBook))
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.error").value("Bad Request"))
+            .andExpect(jsonPath("$.message").value("Author with id 999 does not exist"))
     }
 
     @Test

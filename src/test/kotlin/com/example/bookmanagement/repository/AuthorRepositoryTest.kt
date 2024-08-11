@@ -4,7 +4,8 @@ import com.example.bookmanagement.entity.Author
 import com.example.bookmanagement.jooq.tables.references.AUTHORS
 import com.example.bookmanagement.repository.impl.AuthorRepositoryImpl
 import org.jooq.DSLContext
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -79,17 +80,6 @@ class AuthorRepositoryTest {
         val retrievedAuthor = authorRepository.findById(savedAuthor.id!!)
         assertNotNull(retrievedAuthor)
         assertEquals("Updated Name", retrievedAuthor?.name)
-    }
-
-    @Test
-    fun `should delete author`() {
-        val author = Author(null, "Author to Delete", LocalDate.of(1980, 1, 1))
-        val savedAuthor = authorRepository.save(author)
-
-        authorRepository.delete(savedAuthor.id!!)
-
-        val retrievedAuthor = authorRepository.findById(savedAuthor.id!!)
-        assertNull(retrievedAuthor)
     }
 
     @Test

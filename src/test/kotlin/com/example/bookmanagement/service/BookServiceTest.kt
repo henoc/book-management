@@ -1,22 +1,30 @@
 package com.example.bookmanagement.service
 
+import com.example.bookmanagement.entity.Author
 import com.example.bookmanagement.entity.Book
+import com.example.bookmanagement.exception.InvalidAuthorException
+import com.example.bookmanagement.repository.AuthorRepository
 import com.example.bookmanagement.repository.BookRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.never
+import java.time.LocalDate
 
 class BookServiceTest {
 
     private lateinit var bookService: BookService
     private lateinit var bookRepository: BookRepository
+    private lateinit var authorRepository: AuthorRepository
 
     @BeforeEach
     fun setup() {
         bookRepository = mock(BookRepository::class.java)
-        bookService = BookService(bookRepository)
+        authorRepository = mock(AuthorRepository::class.java)
+        bookService = BookService(bookRepository, authorRepository)
     }
 
     @Test
@@ -69,32 +77,59 @@ class BookServiceTest {
     }
 
     @Test
-    fun `createBook should save and return the new book`() {
-        val newBook = Book(null, "New Book", 2023, 1)
-        val savedBook = Book(3, "New Book", 2023, 1)
+    fun `createBook should save book when author exists`() {
+        val authorId = 1
+        val newBook = Book(null, "New Book", 2023, authorId)
+        val savedBook = Book(1, "New Book", 2023, authorId)
+        val author = Author(authorId, "Existing Author", LocalDate.of(1980, 1, 1))
+
+        `when`(authorRepository.findById(authorId)).thenReturn(author)
         `when`(bookRepository.save(newBook)).thenReturn(savedBook)
 
         val result = bookService.createBook(newBook)
 
         assertEquals(savedBook, result)
+        verify(authorRepository).findById(authorId)
         verify(bookRepository).save(newBook)
     }
 
     @Test
-    fun `updateBook should update and return the book`() {
-        val updatedBook = Book(1, "Updated Book", 2023, 1)
+    fun `createBook should throw InvalidAuthorException when author doesn't exist`() {
+        val newBook = Book(null, "New Book", 2023, 999)
+        `when`(authorRepository.findById(999)).thenReturn(null)
+
+        assertThrows<InvalidAuthorException> {
+            bookService.createBook(newBook)
+        }
+        verify(authorRepository).findById(999)
+        verify(bookRepository, never()).save(any())
+    }
+
+    @Test
+    fun `updateBook should update book when author exists`() {
+        val authorId = 1
+        val updatedBook = Book(1, "Updated Book", 2023, authorId)
+        val author = Author(authorId, "Existing Author", LocalDate.of(1980, 1, 1))
+
+        `when`(authorRepository.findById(authorId)).thenReturn(author)
         `when`(bookRepository.update(updatedBook)).thenReturn(updatedBook)
 
         val result = bookService.updateBook(updatedBook)
 
         assertEquals(updatedBook, result)
+        verify(authorRepository).findById(authorId)
         verify(bookRepository).update(updatedBook)
     }
 
     @Test
-    fun `deleteBook should call repository's delete method`() {
-        bookService.deleteBook(1)
+    fun `updateBook should throw InvalidAuthorException when author doesn't exist`() {
+        val updatedBook = Book(1, "Updated Book", 2023, 999)
+        `when`(authorRepository.findById(999)).thenReturn(null)
 
-        verify(bookRepository).delete(1)
+        assertThrows<InvalidAuthorException> {
+            bookService.updateBook(updatedBook)
+        }
+        verify(authorRepository).findById(999)
+        verify(bookRepository, never()).update(any())
     }
 }

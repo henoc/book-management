@@ -57,8 +57,7 @@ class GlobalExceptionHandler {
     fun handleIllegalArgumentException(ex: IllegalArgumentException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             error = "Bad Request",
-            message = ex.message ?: "Invalid argument provided",
-            details = listOf(ex.message ?: "No details available")
+            message = ex.message ?: "Invalid argument provided"
         )
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
@@ -75,6 +74,20 @@ class GlobalExceptionHandler {
             message = ex.message ?: "The requested element could not be found"
         )
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
+    }
+
+    /**
+     * 著者が存在しない例外をハンドリングします。
+     * @param ex 著者が存在しない例外
+     * @return エラーレスポンス
+     */
+    @ExceptionHandler(InvalidAuthorException::class)
+    fun handleInvalidAuthorException(ex: InvalidAuthorException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            error = "Bad Request",
+            message = ex.message ?: "Invalid author provided"
+        )
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
 }
 

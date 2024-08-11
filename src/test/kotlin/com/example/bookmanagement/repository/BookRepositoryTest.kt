@@ -96,17 +96,6 @@ class BookRepositoryTest {
     }
 
     @Test
-    fun `should delete book`() {
-        val book = Book(null, "Book to Delete", 2021, testAuthor1.id!!)
-        val savedBook = bookRepository.save(book)
-
-        bookRepository.delete(savedBook.id!!)
-
-        val retrievedBook = bookRepository.findById(savedBook.id!!)
-        assertNull(retrievedBook)
-    }
-
-    @Test
     fun `should find all books`() {
         val book1 = Book(null, "Book 1", 2021, testAuthor1.id!!)
         val book2 = Book(null, "Book 2", 2022, testAuthor2.id!!)

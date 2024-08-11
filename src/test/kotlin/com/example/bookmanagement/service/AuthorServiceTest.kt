@@ -79,13 +79,6 @@ class AuthorServiceTest {
     }
 
     @Test
-    fun `deleteAuthor should call repository's delete method`() {
-        authorService.deleteAuthor(1)
-
-        verify(authorRepository).delete(1)
-    }
-
-    @Test
     fun `updateAuthor should throw NoSuchElementException when author doesn't exist`() {
         val nonExistentAuthor = Author(999, "Non-existent Author", LocalDate.of(1990, 1, 1))
         `when`(authorRepository.update(nonExistentAuthor)).thenThrow(NoSuchElementException("Author not found with id: 999"))

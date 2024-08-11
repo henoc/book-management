@@ -5,7 +5,6 @@ import com.example.bookmanagement.entity.Author
 import com.example.bookmanagement.service.AuthorService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -119,13 +118,5 @@ class AuthorControllerTest {
                 .content(objectMapper.writeValueAsString(updatedAuthor))
         )
             .andExpect(status().isBadRequest)
-    }
-
-    @Test
-    fun `should delete an author`() {
-        mockMvc.perform(delete("/api/authors/1"))
-            .andExpect(status().isNoContent)
-
-        verify(authorService).deleteAuthor(1)
     }
 }

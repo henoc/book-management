@@ -38,10 +38,4 @@ class AuthorService(private val authorRepository: AuthorRepository) {
      * @return 更新された著者オブジェクト
      */
     fun updateAuthor(author: Author): Author = authorRepository.update(author)
-
-    /**
-     * 指定されたIDの著者を削除します。
-     * @param id 削除する著者のID
-     */
-    fun deleteAuthor(id: Int) = authorRepository.delete(id)
 }

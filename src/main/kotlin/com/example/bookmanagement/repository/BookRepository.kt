@@ -43,10 +43,4 @@ interface BookRepository {
      * @return 更新された書籍
      */
     fun update(book: Book): Book
-
-    /**
-     * 指定されたIDの書籍を削除します。
-     * @param id 削除する書籍のID
-     */
-    fun delete(id: Int)
 }

@@ -45,10 +45,4 @@ class AuthorRepositoryImpl(private val dsl: DSLContext) : AuthorRepository {
             .execute()
         return author
     }
-
-    override fun delete(id: Int) {
-        dsl.deleteFrom(AUTHORS)
-            .where(AUTHORS.ID.eq(id))
-            .execute()
-    }
 }

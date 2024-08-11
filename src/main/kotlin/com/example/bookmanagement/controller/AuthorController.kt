@@ -51,13 +51,5 @@ class AuthorController(private val authorService: AuthorService) {
         }
         return authorService.updateAuthor(author)
     }
-
-    /**
-     * 指定されたIDの著者を削除します。
-     * @param id 削除する著者のID
-     */
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteAuthor(@PathVariable id: Int) = authorService.deleteAuthor(id)
 }
 

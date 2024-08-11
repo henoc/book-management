@@ -36,10 +36,4 @@ interface AuthorRepository {
      * @return 更新された著者
      */
     fun update(author: Author): Author
-
-    /**
-     * 指定されたIDの著者を削除します。
-     * @param id 削除する著者のID
-     */
-    fun delete(id: Int)
 }

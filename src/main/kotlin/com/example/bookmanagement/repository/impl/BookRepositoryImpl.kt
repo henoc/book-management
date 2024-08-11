@@ -49,10 +49,4 @@ class BookRepositoryImpl(private val dsl: DSLContext) : BookRepository {
             .execute()
         return book
     }
-
-    override fun delete(id: Int) {
-        dsl.deleteFrom(BOOKS)
-            .where(BOOKS.ID.eq(id))
-            .execute()
-    }
 }

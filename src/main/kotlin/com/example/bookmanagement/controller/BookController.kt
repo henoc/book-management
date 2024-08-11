@@ -62,12 +62,4 @@ class BookController(private val bookService: BookService) {
         val updatedBook = bookService.updateBook(book)
         return ResponseEntity.ok(updatedBook)
     }
-
-    /**
-     * 指定されたIDの書籍を削除します。
-     * @param id 削除する書籍のID
-     */
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteBook(@PathVariable id: Int) = bookService.deleteBook(id)
 }
