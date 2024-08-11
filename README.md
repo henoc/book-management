@@ -89,7 +89,6 @@ src
 - GET `/api/authors/{id}` - IDで著者を取得
 - POST `/api/authors` - 新しい著者を作成
 - PUT `/api/authors/{id}` - 著者を更新
-- DELETE `/api/authors/{id}` - 著者を削除
 
 ### 書籍
 - GET `/api/books` - 全書籍を取得
@@ -97,7 +96,6 @@ src
 - GET `/api/books/author/{authorId}` - 著者IDで書籍を取得
 - POST `/api/books` - 新しい書籍を作成
 - PUT `/api/books/{id}` - 書籍を更新
-- DELETE `/api/books/{id}` - 書籍を削除
 
 ## テスト
 
